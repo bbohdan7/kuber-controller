@@ -5,9 +5,7 @@ import io.kubernetes.client.openapi.ApiException
 import io.kubernetes.client.openapi.Configuration
 import io.kubernetes.client.openapi.apis.AppsV1Api
 import io.kubernetes.client.openapi.apis.CoreV1Api
-import io.kubernetes.client.openapi.models.V1Container
-import io.kubernetes.client.openapi.models.V1ContainerPortBuilder
-import io.kubernetes.client.openapi.models.V1DeploymentBuilder
+import io.kubernetes.client.openapi.models.*
 import io.kubernetes.client.util.Config
 import org.springframework.stereotype.Component
 
@@ -52,18 +50,18 @@ class DeploymentHandler {
         return false
     }
 
-    fun deleteDeployment(name: String, namespace: String): Boolean {
-        if (findDeploymentByName(name, namespace)) {
-            appsV1.deleteNamespacedDeployment(name, namespace, null, null, null, null, null, null)
+    fun deleteDeployment(name: String, namespace: String): Boolean = if (findDeploymentByName(name, namespace)) {
+        appsV1.deleteNamespacedDeployment(name, namespace, null, null, null, null, null, null)
+        true
+    } else false
 
-            return true
-        }
-        return false
-    }
+    fun allDeployments(namespace: String): List<V1Deployment>? = appsV1.listNamespacedDeployment(
+        namespace, null, null, null, null, null, null, null, null, null
+    ).items
 
     private fun findDeploymentByName(name: String, namespace: String): Boolean {
         return try {
-            val result = appsV1.readNamespacedDeployment(name, namespace, null, true, null)
+            appsV1.readNamespacedDeployment(name, namespace, null, true, null)
             true
         } catch (ex: ApiException) {
             false

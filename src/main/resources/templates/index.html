@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+          integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"
+            integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+<h1>Home Page</h1>
+<p th:text="${data}"/>
+
+<table class="ui celled striped table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Ready</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="deploy, i: ${deploys}">
+        <td th:text="${i.count}"></td>
+        <td th:text="${deploy.getMetadata().name}"></td>
+        <td th:text="${deploy.getStatus().availableReplicas} + '/' + ${deploy.getStatus().readyReplicas}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
