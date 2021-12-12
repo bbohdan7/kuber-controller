@@ -65,17 +65,22 @@
         <th>#</th>
         <th>Name</th>
         <th>Status</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="deploy, i: ${deploys}">
+    <tr th:each="deployment, i: ${deploys}">
         <td th:text="${i.count}"></td>
-        <td th:text="${deploy.getMetadata().name}"></td>
-        <td th:if="${deploy.getStatus().availableReplicas == deploy.getStatus().readyReplicas}">
-            <span style="background-color: greenyellow; padding: 5px; border-radius: 25px"></span>
+        <td th:text="${deployment.getMetadata().name}"></td>
+        <td th:if="${deployment.getStatus().availableReplicas == deployment.getStatus().readyReplicas}">
+            <button class="ui green button"><i class="ui check icon"></i></button>
         </td>
-        <td th:if="${deploy.getStatus().availableReplicas != deploy.getStatus().readyReplicas}"
-            style="background-color: red; padding: 5px; border-radius: 25px">
+        <td th:if="${deployment.getStatus().availableReplicas != deployment.getStatus().readyReplicas}">
+            <button class="ui red button"><i class="ui close icon"></i></button>
+        </td>
+        <td>
+            <a class="ui red button" th:href="@{/delete/{name}(name=${deployment.getMetadata().name})}"><i
+                    class="ui trash icon"></i></a>
         </td>
     </tr>
     </tbody>
