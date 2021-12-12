@@ -16,21 +16,67 @@
 </head>
 <body>
 <h1>Home Page</h1>
-<p th:text="${data}"/>
+<p th:text="${data}"></p>
 
-<table class="ui celled striped table">
+<div class="ui grid">
+    <div class="three column row">
+        <div class="column"></div>
+        <div class="column">
+            <form action="#" th:action="@{/}" th:object="${deploy}" method="POST" class="ui form">
+                <div class="field">
+                    <label>Enter deployment name: </label>
+                    <input type="text" th:field="*{name}"/>
+                </div>
+
+                <div class="field">
+                    <label>Specify namespace: </label>
+                    <input type="text" th:field="*{namespace}"/>
+                </div>
+
+                <div class="field">
+                    <label>Select deployment image</label>
+                    <input type="text" th:field="*{image}"/>
+                </div>
+
+                <div class="field">
+                    <label>Specify the replicas count</label>
+                    <input type="number" th:field="*{replicas}">
+                </div>
+
+                <div class="field">
+                    <label>Specify the port</label>
+                    <input type="number" th:field="*{port}">
+                </div>
+
+                <div class="field">
+                    <button type="submit" class="ui olive button"><i class="pencil alternate icon"></i>Create Deployment
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="column"></div>
+    </div>
+</div>
+
+
+<table class="ui celled striped table" style="text-align: center">
     <thead>
     <tr>
         <th>#</th>
         <th>Name</th>
-        <th>Ready</th>
+        <th>Status</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="deploy, i: ${deploys}">
         <td th:text="${i.count}"></td>
         <td th:text="${deploy.getMetadata().name}"></td>
-        <td th:text="${deploy.getStatus().availableReplicas} + '/' + ${deploy.getStatus().readyReplicas}"></td>
+        <td th:if="${deploy.getStatus().availableReplicas == deploy.getStatus().readyReplicas}">
+            <span style="background-color: greenyellow; padding: 5px; border-radius: 25px"></span>
+        </td>
+        <td th:if="${deploy.getStatus().availableReplicas != deploy.getStatus().readyReplicas}"
+            style="background-color: red; padding: 5px; border-radius: 25px">
+        </td>
     </tr>
     </tbody>
 </table>

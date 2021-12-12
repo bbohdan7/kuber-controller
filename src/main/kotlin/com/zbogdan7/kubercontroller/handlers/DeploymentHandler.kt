@@ -1,5 +1,6 @@
 package com.zbogdan7.kubercontroller.handlers
 
+import com.zbogdan7.kubercontroller.controllers.post.Deployment
 import io.kubernetes.client.openapi.ApiClient
 import io.kubernetes.client.openapi.ApiException
 import io.kubernetes.client.openapi.Configuration
@@ -22,21 +23,20 @@ class DeploymentHandler {
         appsV1 = AppsV1Api(apiClient)
     }
 
-    fun createDeployment(
-        name: String, image: String, namespace: String, labels: Map<String, String>, port: Int? = null
-    ): Boolean {
-        if (!findDeploymentByName(name, namespace)) {
+    fun createDeployment(deploy: Deployment): Boolean {
+        if (!findDeploymentByName(deploy)) {
             appsV1.createNamespacedDeployment(
-                namespace,
-                V1DeploymentBuilder().withApiVersion("apps/v1").withKind("Deployment").withNewMetadata().withName(name)
-                    .withLabels(mapOf("app" to name)).endMetadata().withNewSpec().withReplicas(2).withNewSelector()
-                    .withMatchLabels(mapOf("app" to name)).endSelector().withNewTemplate().withNewMetadata()
-                    .withLabels(mapOf("app" to name)).endMetadata().withNewSpec().withContainers(V1Container().apply {
-                        this.name = name
-                        this.image = image
+                deploy.namespace,
+                V1DeploymentBuilder().withApiVersion("apps/v1").withKind("Deployment").withNewMetadata()
+                    .withName(deploy.name).withLabels(deploy.labels).endMetadata().withNewSpec()
+                    .withReplicas(deploy.replicas).withNewSelector().withMatchLabels(deploy.labels).endSelector()
+                    .withNewTemplate().withNewMetadata().withLabels(deploy.labels).endMetadata().withNewSpec()
+                    .withContainers(V1Container().apply {
+                        this.name = deploy.name
+                        this.image = deploy.image
 
-                        if (port != null) {
-                            this.addPortsItem(V1ContainerPortBuilder().withContainerPort(port).build())
+                        if (deploy.port != null) {
+                            this.addPortsItem(V1ContainerPortBuilder().withContainerPort(deploy.port).build())
                         }
                     }).endSpec().endTemplate().endSpec().build(),
                 null,
@@ -50,8 +50,8 @@ class DeploymentHandler {
         return false
     }
 
-    fun deleteDeployment(name: String, namespace: String): Boolean = if (findDeploymentByName(name, namespace)) {
-        appsV1.deleteNamespacedDeployment(name, namespace, null, null, null, null, null, null)
+    fun deleteDeployment(deploy: Deployment): Boolean = if (findDeploymentByName(deploy)) {
+        appsV1.deleteNamespacedDeployment(deploy.name, deploy.namespace, null, null, null, null, null, null)
         true
     } else false
 
@@ -59,9 +59,9 @@ class DeploymentHandler {
         namespace, null, null, null, null, null, null, null, null, null
     ).items
 
-    private fun findDeploymentByName(name: String, namespace: String): Boolean {
+    private fun findDeploymentByName(deploy: Deployment): Boolean {
         return try {
-            appsV1.readNamespacedDeployment(name, namespace, null, true, null)
+            appsV1.readNamespacedDeployment(deploy.name, deploy.namespace, null, true, null)
             true
         } catch (ex: ApiException) {
             false
