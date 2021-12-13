@@ -39,12 +39,15 @@
         <thead>
         <tr>
             <th>TaskRun name</th>
+            <th>Status</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="taskRun: ${allTaskRuns}">
-            <td th:text="${taskRun}"/>
+            <td th:text="${taskRun.getMetadata().name}"/>
+            <td th:style="${taskRun.getStatus().getConditions()[0].status.equals('True') ? 'background-color: green' : 'background-color: red'}"
+                th:text="${taskRun.getStatus().getConditions()[0].message}"/>
             <td>
                 <a th:href="@{/tasks/delete-task-run/{name}(name = ${taskRun})}" class="ui red button"><i
                         class="ui trash icon"></i></a>

@@ -24,7 +24,10 @@ class TektonController {
 
 
     @GetMapping("start-new-task/{name}")
-    fun startTask(@PathVariable name: String): String {
+    fun startTask(@PathVariable name: String, model: Model): String {
+        model.addAttribute("allTasks", svc.all())
+        model.addAttribute("allTaskRuns", svc.taskRuns())
+
         svc.startTask()
 
         return "redirect:/tasks"

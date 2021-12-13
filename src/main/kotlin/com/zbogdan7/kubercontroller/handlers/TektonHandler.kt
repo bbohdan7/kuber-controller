@@ -21,7 +21,7 @@ class TektonHandler {
     )
 
     //Notice that here I'm using Kotlin's map which automatically returns a List
-    fun listTaskRuns(): List<String> = tkn.v1beta1().taskRuns().list().items.map { it.metadata.name }
+    fun listTaskRuns(): List<TaskRun> = tkn.v1beta1().taskRuns().list().items
 
     fun runTask(): Unit {
         tkn.v1beta1().taskRuns().inNamespace(Defaults.namespace).create(
