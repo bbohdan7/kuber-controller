@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tekton Tasks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+          integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"
+            integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+<h1 style="text-align: center">Tasks</h1>
+<div class="ui container">
+    <table class="ui inverted table">
+        <thead>
+        <tr>
+            <th>Task name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task: ${allTasks}">
+            <td th:text="${task}"/>
+            <td>
+                <a th:href="@{/tasks/start-new-task/{name}(name = ${task})}" class="ui olive button">Run this task</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h1 style="text-align: center">TaskRuns</h1>
+    <table class="ui inverted table">
+        <thead>
+        <tr>
+            <th>TaskRun name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="taskRun: ${allTaskRuns}">
+            <td th:text="${taskRun}"/>
+            <td>
+                <h th:href="@{/tasks/delete-task-run/{name}(name = ${taskRun})}" class="ui red button"><i
+                        class="ui trash icon"></i></h>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

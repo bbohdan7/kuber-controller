@@ -3,7 +3,6 @@ package com.zbogdan7.kubercontroller.services
 import com.zbogdan7.kubercontroller.handlers.TektonHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import javax.annotation.PostConstruct
 
 @Service
 class TektonService {
@@ -11,6 +10,7 @@ class TektonService {
     @Autowired
     private lateinit var handler: TektonHandler
 
-    @PostConstruct
-    fun init(): Unit = handler.listTasks()
+    fun all(): List<String> = handler.listTasks()
+    fun taskRuns(): List<String> = handler.listTaskRuns()
+    fun startTask(): Unit = handler.runTask()
 }
