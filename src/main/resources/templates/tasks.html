@@ -46,8 +46,8 @@
         <tr th:each="taskRun: ${allTaskRuns}">
             <td th:text="${taskRun}"/>
             <td>
-                <h th:href="@{/tasks/delete-task-run/{name}(name = ${taskRun})}" class="ui red button"><i
-                        class="ui trash icon"></i></h>
+                <a th:href="@{/tasks/delete-task-run/{name}(name = ${taskRun})}" class="ui red button"><i
+                        class="ui trash icon"></i></a>
             </td>
         </tr>
         </tbody>

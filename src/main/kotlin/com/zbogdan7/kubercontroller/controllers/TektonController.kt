@@ -7,7 +7,6 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import javax.websocket.server.PathParam
 
 @Controller
 @RequestMapping("/tasks")
@@ -27,6 +26,13 @@ class TektonController {
     @GetMapping("start-new-task/{name}")
     fun startTask(@PathVariable name: String): String {
         svc.startTask()
+
+        return "redirect:/tasks"
+    }
+
+    @GetMapping("delete-task-run/{name}")
+    fun deleteTaskRun(@PathVariable name: String): String {
+        svc.deleteTaskRun(name)
 
         return "redirect:/tasks"
     }

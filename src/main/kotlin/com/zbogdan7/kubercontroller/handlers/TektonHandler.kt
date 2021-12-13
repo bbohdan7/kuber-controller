@@ -1,6 +1,7 @@
 package com.zbogdan7.kubercontroller.handlers
 
 import io.fabric8.tekton.client.DefaultTektonClient
+import io.fabric8.tekton.pipeline.v1beta1.TaskRun
 import io.fabric8.tekton.pipeline.v1beta1.TaskRunBuilder
 import org.springframework.stereotype.Component
 import java.util.stream.Collectors
@@ -31,6 +32,10 @@ class TektonHandler {
                 .withName("wasapp-piped").withNewResourceRef().withName("wasapp-image").endResourceRef().endOutput()
                 .endResources().endSpec().build()
         )
+    }
+
+    fun deleteTaskRun(name: String): Unit {
+        tkn.v1beta1().taskRuns().delete(TaskRunBuilder().withNewMetadata().withName(name).endMetadata().build())
     }
 
 }

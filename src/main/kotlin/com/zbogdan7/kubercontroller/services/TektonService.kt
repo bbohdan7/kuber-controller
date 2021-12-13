@@ -13,4 +13,5 @@ class TektonService {
     fun all(): List<String> = handler.listTasks()
     fun taskRuns(): List<String> = handler.listTaskRuns()
     fun startTask(): Unit = handler.runTask()
+    fun deleteTaskRun(name: String): Unit = handler.deleteTaskRun(name)
 }
