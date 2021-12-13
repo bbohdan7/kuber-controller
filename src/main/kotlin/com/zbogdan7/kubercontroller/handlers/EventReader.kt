@@ -34,8 +34,7 @@ class EventReader {
         events.items.forEach {
             result.add(
                 Event(
-                    timestamp = SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(it.lastTimestamp?.toDate()),
-                    message = it.message
+                    timestamp = SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(it.lastTimestamp), message = it.message
                 )
             )
         }
