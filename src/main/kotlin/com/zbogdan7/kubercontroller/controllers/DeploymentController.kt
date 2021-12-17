@@ -18,16 +18,18 @@ class DeploymentController {
     private lateinit var coreService: CoreApiService
 
     companion object Defaults {
-        const val namespace: String = "javatest"
+        var namespace: String = "default"
     }
 
     @GetMapping("/")
-    fun index(model: Model): String {
-        val data = "We've got ${service.allDeployments("bogdan")?.size} deployments in count."
+    fun index(@RequestParam(defaultValue = "default") namespace: String, model: Model): String {
+        val data = "We've got ${service.allDeployments(namespace)?.size} deployments in count."
+        println("Query param is $namespace")
         model.addAttribute("data", data)
-        model.addAttribute("deploys", service.allDeployments(Defaults.namespace))
+        model.addAttribute("deploys", service.allDeployments(namespace))
         model.addAttribute("deploy", Deployment())
         model.addAttribute("namespaces", coreService.listNamespaces())
+        model.addAttribute("namespace", namespace)
 
         return "index"
     }
@@ -40,7 +42,7 @@ class DeploymentController {
 
         println("Post invoked")
 
-        service.create(deploy)
+        service.create(deploy.also { it.namespace = Defaults.namespace })
 
         return "redirect:/"
     }
@@ -53,6 +55,5 @@ class DeploymentController {
 
         return "redirect:/"
     }
-
 
 }

@@ -24,6 +24,21 @@
     <div class="three column row">
         <div class="column"></div>
         <div class="column">
+
+            <form th:action="@{/}">
+                <select class="ui fluid dropdown" th:field="${namespace}" onchange="this.form.submit()">
+                    <option th:each="ns: ${namespaces}" th:value="${ns}" th:text="${ns}">
+                    </option>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="ui grid">
+    <div class="three column row">
+        <div class="column"></div>
+        <div class="column">
             <form action="#" th:action="@{/}" th:object="${deploy}" method="POST" class="ui form">
                 <div class="field">
                     <label>Enter deployment name: </label>
@@ -61,6 +76,8 @@
         <div class="column"></div>
     </div>
 </div>
+
+<h1 class="ui text">Retrieved applications from namespace: <strong th:text="${namespace}"/></h1>
 
 <table class="ui celled striped table" style="text-align: center">
     <thead>
