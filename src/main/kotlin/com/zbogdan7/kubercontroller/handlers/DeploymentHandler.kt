@@ -1,27 +1,17 @@
 package com.zbogdan7.kubercontroller.handlers
 
 import com.zbogdan7.kubercontroller.controllers.post.Deployment
-import io.kubernetes.client.openapi.ApiClient
 import io.kubernetes.client.openapi.ApiException
-import io.kubernetes.client.openapi.Configuration
-import io.kubernetes.client.openapi.apis.AppsV1Api
-import io.kubernetes.client.openapi.apis.CoreV1Api
-import io.kubernetes.client.openapi.models.*
-import io.kubernetes.client.util.Config
+import io.kubernetes.client.openapi.models.V1Container
+import io.kubernetes.client.openapi.models.V1ContainerPortBuilder
+import io.kubernetes.client.openapi.models.V1Deployment
+import io.kubernetes.client.openapi.models.V1DeploymentBuilder
 import org.springframework.stereotype.Component
 
 @Component
 class DeploymentHandler {
 
-    private val apiClient: ApiClient = Config.defaultClient()
-    private val coreV1: CoreV1Api
-    private val appsV1: AppsV1Api
-
-    init {
-        Configuration.setDefaultApiClient(apiClient)
-        coreV1 = CoreV1Api(apiClient)
-        appsV1 = AppsV1Api(apiClient)
-    }
+    private val appsV1 = ResourceBuilder.appsV1()
 
     fun createDeployment(deploy: Deployment): Boolean {
         if (!findDeploymentByName(deploy)) {

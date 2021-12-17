@@ -16,13 +16,7 @@ class EventReader {
         const val defaultNamespace: String = "javatest"
     }
 
-    private val apiClient: ApiClient = Config.defaultClient()
-    private val coreV1: CoreV1Api
-
-    init {
-        Configuration.setDefaultApiClient(apiClient)
-        this.coreV1 = CoreV1Api(apiClient)
-    }
+    private val coreV1 = ResourceBuilder.coreV1()
 
     fun listEvents(): List<Event> {
         val events = coreV1.listNamespacedEvent(

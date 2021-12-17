@@ -1,6 +1,7 @@
 package com.zbogdan7.kubercontroller.controllers
 
 import com.zbogdan7.kubercontroller.controllers.post.Deployment
+import com.zbogdan7.kubercontroller.services.CoreApiService
 import com.zbogdan7.kubercontroller.services.DeploymentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -13,6 +14,9 @@ class DeploymentController {
     @Autowired
     private lateinit var service: DeploymentService
 
+    @Autowired
+    private lateinit var coreService: CoreApiService
+
     companion object Defaults {
         const val namespace: String = "javatest"
     }
@@ -23,6 +27,7 @@ class DeploymentController {
         model.addAttribute("data", data)
         model.addAttribute("deploys", service.allDeployments(Defaults.namespace))
         model.addAttribute("deploy", Deployment())
+        model.addAttribute("namespaces", coreService.listNamespaces())
 
         return "index"
     }

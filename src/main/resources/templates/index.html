@@ -32,7 +32,9 @@
 
                 <div class="field">
                     <label>Specify namespace: </label>
-                    <input type="text" th:field="*{namespace}"/>
+                    <select th:field="*{namespace}">
+                        <option th:each="n: ${namespaces}" th:value="${n}" th:text="${n}"/>
+                    </select>
                 </div>
 
                 <div class="field">
