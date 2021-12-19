@@ -11,7 +11,7 @@ class EventService {
     @Autowired
     private lateinit var reader: EventReader
 
-    fun all(): List<Event> = reader.listEvents()
+    fun all(namespace: String): List<Event> = reader.listEvents(namespace)
 
 
 }

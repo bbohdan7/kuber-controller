@@ -18,6 +18,15 @@
 <div class="ui container">
     <a th:href="@{/}" class="ui orange button">Home Page</a>
 
+    <div class="ui floating dropdown labeled search icon button">
+        <i class="docker icon"></i>
+        <span class="text" th:text="${'Namespace:' + namespace}"></span>
+        <div class="menu">
+            <a class="item" th:field="${namespace}" th:each="ns: ${namespaces}" th:text="${ns}"
+               th:href="@{/events/(namespace=${ns})}"></a>
+        </div>
+    </div>
+
     <table class="ui inverted table">
         <thead>
         <tr>
@@ -33,5 +42,12 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('.ui.dropdown').dropdown();
+    });
+</script>
+
 </body>
 </html>

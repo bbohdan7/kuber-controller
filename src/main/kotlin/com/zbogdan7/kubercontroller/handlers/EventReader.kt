@@ -12,15 +12,11 @@ import java.text.SimpleDateFormat
 @Component
 class EventReader {
 
-    object Default {
-        const val defaultNamespace: String = "javatest"
-    }
-
     private val coreV1 = ResourceBuilder.coreV1()
 
-    fun listEvents(): List<Event> {
+    fun listEvents(namespace: String): List<Event> {
         val events = coreV1.listNamespacedEvent(
-            DeploymentController.namespace, null, null, null, null, null, null, null, null, null
+            namespace, null, null, null, null, null, null, null, null, null
         )
 
         val result = emptyList<Event>().toMutableList()

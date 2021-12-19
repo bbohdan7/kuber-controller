@@ -20,18 +20,12 @@
 <a th:href="@{/events}" class="ui blue button">List Events</a>
 <a th:href="@{/tasks}" class="ui orange button">Tekton tasks</a>
 
-<div class="ui grid">
-    <div class="three column row">
-        <div class="column"></div>
-        <div class="column">
-
-            <form th:action="@{/}">
-                <select class="ui fluid dropdown" th:field="${namespace}" onchange="this.form.submit()">
-                    <option th:each="ns: ${namespaces}" th:value="${ns}" th:text="${ns}">
-                    </option>
-                </select>
-            </form>
-        </div>
+<div class="ui floating dropdown labeled search icon button">
+    <i class="docker icon"></i>
+    <span class="text" th:text="${'Namespace:' + namespace}"></span>
+    <div class="menu">
+        <a class="item" th:field="${namespace}" th:each="ns: ${namespaces}" th:text="${ns}"
+           th:href="@{/(namespace=${ns})}"></a>
     </div>
 </div>
 
@@ -105,6 +99,12 @@
     </tr>
     </tbody>
 </table>
+
+<script>
+    $(document).ready(function () {
+        $('.ui.dropdown').dropdown();
+    });
+</script>
 
 </body>
 </html>
