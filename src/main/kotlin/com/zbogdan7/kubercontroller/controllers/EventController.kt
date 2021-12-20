@@ -1,6 +1,5 @@
 package com.zbogdan7.kubercontroller.controllers
 
-import com.zbogdan7.kubercontroller.handlers.ResourceBuilder
 import com.zbogdan7.kubercontroller.services.CoreApiService
 import com.zbogdan7.kubercontroller.services.EventService
 import org.springframework.beans.factory.annotation.Autowired
